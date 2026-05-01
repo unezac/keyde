@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>keygermany - Typing Trainer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="topbar">
+        <a class="brand" href="#" aria-label="keygermany.com home">
+            <span class="brand-icon">K</span>
+            <span>keygermany.com</span>
+        </a>
+
+        <form class="search" id="search-form" role="search">
+            <span aria-hidden="true">⌕</span>
+            <input id="sentence-search" type="search" placeholder="Search practice sentences" autocomplete="off">
+        </form>
+
+        <div class="topbar-actions" aria-label="Application actions">
+            <button class="icon-button" id="stats-toggle" type="button" aria-label="View statistics" title="Statistics">
+                <span aria-hidden="true">%</span>
+            </button>
+
+            <button class="icon-button" id="achievements-toggle" type="button" aria-label="View achievements" title="Achievements">
+                <span aria-hidden="true">*</span>
+            </button>
+
+            <button class="menu-button" id="settings-toggle" type="button" aria-label="Open settings" aria-expanded="false" title="Settings">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+
+        <aside class="settings-panel" id="settings-panel" aria-label="Settings">
+            <div class="panel-head">
+                <strong>Settings</strong>
+                <button id="settings-close" type="button" aria-label="Close settings">×</button>
+            </div>
+
+            <label>
+                Keyboard Layout
+                <select id="keyboard-layout-select">
+                    <option value="qwertz" selected>QWERTZ (German)</option>
+                    <option value="qwerty">QWERTY (English)</option>
+                    <option value="azerty">AZERTY (French)</option>
+                </select>
+            </label>
+
+            <label>
+                Difficulty Level
+                <select id="level-select">
+                    <option value="A1">A1 - Beginner</option>
+                    <option value="A2">A2 - Elementary</option>
+                    <option value="B1">B1 - Intermediate</option>
+                    <option value="B2" selected>B2 - Upper Intermediate</option>
+                    <option value="C1">C1 - Advanced</option>
+                </select>
+            </label>
+
+            <label>
+                Category
+                <select id="category-select">
+                    <option value="">All Categories</option>
+                </select>
+            </label>
+
+            <label>
+                Filter
+                <select id="filter-select">
+                    <option value="">All Sentences</option>
+                    <option value="favorites">❤ Favorites Only</option>
+                </select>
+            </label>
+
+            <label>
+                Theme
+                <select id="theme-select">
+                    <option value="light">Light</option>
+                    <option value="dark">Dark</option>
+                    <option value="cream">Soft</option>
+                </select>
+            </label>
+
+            <label>
+                Translation
+                <select id="translation-select">
+                    <option value="ar">Arabic</option>
+                    <option value="en">English</option>
+                </select>
+            </label>
+
+            <label>
+                Voice
+                <select id="voice-select">
+                    <option value="on">Auto play on finish</option>
+                    <option value="off">Manual only</option>
+                </select>
+            </label>
+
+            <label>
+                German Voice
+                <select id="german-voice-select">
+                    <option value="auto">Auto German voice</option>
+                </select>
+            </label>
+
+            <label>
+                Reading Style
+                <select id="voice-style-select">
+                    <option value="natural">Natural</option>
+                    <option value="clear">Clear practice</option>
+                    <option value="slow">Slow learner</option>
+                    <option value="exam">Exam speed</option>
+                </select>
+            </label>
+
+            <label>
+                Keyboard Sound
+                <select id="keyboard-sound-select">
+                    <option value="soft">Soft taps</option>
+                    <option value="mechanical">Mechanical clicks</option>
+                    <option value="piano">Piano notes</option>
+                    <option value="retro">Retro blips</option>
+                    <option value="off">Off</option>
+                </select>
+            </label>
+
+            <button class="listen-button" id="listen-button" type="button">Listen</button>
+        </aside>
+
+        <aside class="stats-panel" id="stats-panel" aria-label="Statistics">
+            <div class="panel-head">
+                <strong>Statistics</strong>
+                <button id="stats-close" type="button" aria-label="Close statistics">×</button>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span>Sessions</span>
+                    <strong id="stat-sessions">0</strong>
+                </div>
+                <div class="stat-item">
+                    <span>Avg Accuracy</span>
+                    <strong id="stat-avg-accuracy">0%</strong>
+                </div>
+                <div class="stat-item">
+                    <span>Avg WPM</span>
+                    <strong id="stat-avg-wpm">0</strong>
+                </div>
+                <div class="stat-item">
+                    <span>Total Words</span>
+                    <strong id="stat-total-words">0</strong>
+                </div>
+                <div class="stat-item">
+                    <span>Best WPM</span>
+                    <strong id="stat-best-wpm">0</strong>
+                </div>
+                <div class="stat-item">
+                    <span>Best Accuracy</span>
+                    <strong id="stat-best-accuracy">0%</strong>
+                </div>
+            </div>
+
+            <button id="stats-reset" type="button" class="reset-button">Reset Stats</button>
+        </aside>
+
+        <aside class="achievements-panel" id="achievements-panel" aria-label="Achievements">
+            <div class="panel-head">
+                <strong>Achievements 🏆</strong>
+                <button id="achievements-close" type="button" aria-label="Close achievements">×</button>
+            </div>
+
+            <div class="achievements-list" id="achievements-list">
+                <!-- Achievements will be populated here -->
+            </div>
+        </aside>
+    </header>
+
+    <main class="app">
+        <section class="trainer" aria-label="Typing trainer">
+            <div class="trainer-topline">
+                <span id="level-display">B2 German</span>
+                <span id="typing-state">Ready</span>
+                <button class="favorite-button" id="favorite-button" type="button" aria-label="Add to favorites" title="Bookmark this sentence">♡</button>
+            </div>
+
+            <h1 id="sentence-display" class="sentence-display">Ich bin glücklich, weil ich viel zu tun habe.</h1>
+            <p id="translation-display" class="translation-display" lang="ar" dir="rtl">
+                أنا سعيد لأن لدي الكثير لأفعله.
+            </p>
+
+            <div class="practice-actions" aria-label="Practice actions">
+                <button class="command-button" id="quick-listen-button" type="button">Listen</button>
+                <button class="command-button" id="retry-button" type="button">Retry</button>
+                <button class="command-button command-button-primary" id="skip-button" type="button">Next</button>
+            </div>
+
+            <div class="typing-box">
+                <label for="typing-input">Type the German sentence</label>
+                <textarea id="typing-input" rows="3" spellcheck="false" autocomplete="off" placeholder="Start typing here..."></textarea>
+                <div class="progress-track" aria-hidden="true">
+                    <div id="progress-bar" class="progress-bar"></div>
+                </div>
+            </div>
+
+            <div class="metrics" aria-label="Typing metrics">
+                <div>
+                    <span>Accuracy</span>
+                    <strong id="accuracy">100%</strong>
+                </div>
+                <div>
+                    <span>Progress</span>
+                    <strong id="progress-label">0%</strong>
+                </div>
+                <div>
+                    <span>WPM</span>
+                    <strong id="wpm-label">0</strong>
+                </div>
+                <div>
+                    <span>Next key</span>
+                    <strong id="next-key">I</strong>
+                </div>
+            </div>
+        </section>
+
+        <section class="keyboard-section" aria-label="Animated QWERTZ keyboard">
+            <div class="keyboard-header">
+                <h2>QWERTZ Keyboard</h2>
+                <p>Physical keys light up as you type.</p>
+            </div>
+
+            <div class="keyboard" id="keyboard">
+                <div class="keyboard-row">
+                    <kbd class="key" data-key="^">^</kbd>
+                    <kbd class="key" data-key="1">1</kbd>
+                    <kbd class="key" data-key="2">2</kbd>
+                    <kbd class="key" data-key="3">3</kbd>
+                    <kbd class="key" data-key="4">4</kbd>
+                    <kbd class="key" data-key="5">5</kbd>
+                    <kbd class="key" data-key="6">6</kbd>
+                    <kbd class="key" data-key="7">7</kbd>
+                    <kbd class="key" data-key="8">8</kbd>
+                    <kbd class="key" data-key="9">9</kbd>
+                    <kbd class="key" data-key="0">0</kbd>
+                    <kbd class="key" data-key="ß">ß</kbd>
+                    <kbd class="key" data-key="´">´</kbd>
+                    <kbd class="key key-wide" data-key="backspace">⌫</kbd>
+                </div>
+
+                <div class="keyboard-row">
+                    <kbd class="key key-wide" data-key="tab">Tab</kbd>
+                    <kbd class="key" data-key="q">Q</kbd>
+                    <kbd class="key" data-key="w">W</kbd>
+                    <kbd class="key" data-key="e">E</kbd>
+                    <kbd class="key" data-key="r">R</kbd>
+                    <kbd class="key" data-key="t">T</kbd>
+                    <kbd class="key" data-key="z">Z</kbd>
+                    <kbd class="key" data-key="u">U</kbd>
+                    <kbd class="key" data-key="i">I</kbd>
+                    <kbd class="key" data-key="o">O</kbd>
+                    <kbd class="key" data-key="p">P</kbd>
+                    <kbd class="key" data-key="ü">Ü</kbd>
+                    <kbd class="key" data-key="+">+</kbd>
+                </div>
+
+                <div class="keyboard-row">
+                    <kbd class="key key-wide" data-key="capslock">Caps</kbd>
+                    <kbd class="key" data-key="a">A</kbd>
+                    <kbd class="key" data-key="s">S</kbd>
+                    <kbd class="key" data-key="d">D</kbd>
+                    <kbd class="key" data-key="f">F</kbd>
+                    <kbd class="key" data-key="g">G</kbd>
+                    <kbd class="key" data-key="h">H</kbd>
+                    <kbd class="key" data-key="j">J</kbd>
+                    <kbd class="key" data-key="k">K</kbd>
+                    <kbd class="key" data-key="l">L</kbd>
+                    <kbd class="key" data-key="ö">Ö</kbd>
+                    <kbd class="key" data-key="ä">Ä</kbd>
+                    <kbd class="key" data-key="#">#</kbd>
+                    <kbd class="key key-wide" data-key="enter">Enter</kbd>
+                </div>
+
+                <div class="keyboard-row">
+                    <kbd class="key key-shift" data-key="shift">Shift</kbd>
+                    <kbd class="key" data-key="<">&lt;</kbd>
+                    <kbd class="key" data-key="y">Y</kbd>
+                    <kbd class="key" data-key="x">X</kbd>
+                    <kbd class="key" data-key="c">C</kbd>
+                    <kbd class="key" data-key="v">V</kbd>
+                    <kbd class="key" data-key="b">B</kbd>
+                    <kbd class="key" data-key="n">N</kbd>
+                    <kbd class="key" data-key="m">M</kbd>
+                    <kbd class="key" data-key=",">,</kbd>
+                    <kbd class="key" data-key=".">.</kbd>
+                    <kbd class="key" data-key="-">-</kbd>
+                    <kbd class="key key-shift" data-key="shift">Shift</kbd>
+                </div>
+
+                <div class="keyboard-row keyboard-row-bottom">
+                    <kbd class="key key-space" data-key=" ">Space</kbd>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

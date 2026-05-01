@@ -1,0 +1,158 @@
+KeyGermany - Project Goals & Requirements
+🎯 Main Goal
+Build a German typing speed trainer where learners practice typing German B2-level sentences while listening to native pronunciation. The app combines typing practice with language learning.
+
+📋 Core Functional Requirements
+1. Frontend (User Interface)
+
+Clean, Modern Design: Blue & white color scheme, centered layout
+Header:
+
+Left: Logo/icon
+Center: "KeyGermany" branding
+Right: Settings (Language: English/Arabic)
+
+
+Main Content Area:
+
+Display ONE German sentence (B2 level) in large, bold font
+Show translation below (English or Arabic based on settings)
+Input field where user types the German sentence
+Virtual keyboard display at bottom (reference)
+
+
+Real-time Feedback:
+
+✅ Typed text turns GREEN when correct
+❌ Typed text turns RED when there's a typo
+Auto-complete triggers when sentence is typed correctly
+
+
+Audio/Speech:
+
+When sentence is completed correctly, automatically play German pronunciation (Web Speech API, de-DE)
+Clear audio button for manual replay
+
+
+
+2. Backend (FastAPI + PostgreSQL)
+
+Endpoints:
+
+GET /api/sentences/random - Return random B2 German sentence with translations
+GET /api/sentences - Get all sentences (with filtering by level)
+POST /api/sentences - Add new sentence (admin)
+
+
+Database Schema:
+
+id (Primary Key)
+german_text (The German sentence)
+english_translation (English translation)
+arabic_translation (Arabic translation)
+level (A1, A2, B1, B2, C1, C2)
+difficulty_score (1-10)
+created_at, updated_at timestamps
+
+
+
+3. User Workflow
+
+User loads the app
+Random German sentence appears
+User sees English OR Arabic translation (based on settings)
+User types the German sentence in the input field
+Real-time validation:
+
+If typing is wrong → text turns RED
+If typing is correct → text turns GREEN
+
+
+When sentence is fully typed correctly:
+
+Audio plays German pronunciation automatically
+After 1 second delay, input clears
+Next sentence loads automatically
+
+
+User can continue indefinitely or check stats
+
+
+🛠 Technical Stack
+ComponentTechnologyFrontendHTML5, CSS3, Vanilla JavaScriptBackendPython FastAPIDatabasePostgreSQLOSLinux (WSL Ubuntu)API CommunicationREST with JSONSpeechWeb Speech API (Native Browser)
+
+📦 Project Structure
+keygermany/
+├── backend/
+│   ├── main.py                 # FastAPI app & endpoints
+│   ├── requirements.txt        # Dependencies (fastapi, psycopg2, etc)
+│   ├── database.py            # Database connection setup
+│   └── .env                   # DB credentials
+├── frontend/
+│   ├── index.html             # Main page
+│   ├── style.css              # Styling & animations
+│   └── script.js              # JavaScript logic
+└── database/
+    └── schema.sql             # PostgreSQL table schema
+
+✨ Key Features
+✅ Real-time typing validation
+✅ Automatic speech synthesis (German pronunciation)
+✅ Multi-language support (English/Arabic translations)
+✅ Beautiful, responsive UI
+✅ Endless sentence rotation
+✅ Difficulty levels (A1-C2)
+✅ Virtual keyboard reference (static display)
+✅ Fast, clean backend API
+
+🚀 Success Criteria
+
+User can type German sentences smoothly
+Real-time feedback is instant (< 100ms)
+Audio plays correctly when sentence is complete
+Next sentence loads within 1 second
+UI is responsive and visually appealing
+Database has 50+ B2 level sentences
+App runs on WSL Ubuntu without issues
+
+
+📝 Setup Instructions (Quick Start)
+bash# 1. Backend setup
+cd backend
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+
+# 2. Database
+createdb keygermany
+psql keygermany < ../database/schema.sql
+
+# 3. Run backend
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
+
+# 4. Open frontend
+# Open index.html in browser (or use simple HTTP server)
+python3 -m http.server 3000
+
+🎨 Design Notes
+
+Color Scheme:
+
+Primary Blue: #0066CC
+Success Green: #00AA00
+Error Red: #CC0000
+Neutral Gray: #F5F5F5
+
+
+Typography: Modern, readable fonts
+Layout: Centered, mobile-responsive
+Animations: Smooth transitions, no jarring effects
+
+
+👥 Target User
+German B2 learners who want to:
+
+Improve typing speed
+Practice German spelling
+Train ear for pronunciation
+Build muscle memory for keyboard
