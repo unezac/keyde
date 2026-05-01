@@ -15,8 +15,12 @@ load_dotenv(BACKEND_ROOT / ".env")
 # Use SQLite for development, PostgreSQL for production
 DATABASE_URL = os.getenv("DATABASE_URL")
 if DATABASE_URL is None:
-    # SQLite for local development
-    abs_path = BACKEND_ROOT / "keygermany.db"
+    # SQLite for local development. Vercel serverless functions can write only
+    # to /tmp, so use an ephemeral DB there unless DATABASE_URL is configured.
+    if os.getenv("VERCEL"):
+        abs_path = Path("/tmp/keygermany.db")
+    else:
+        abs_path = BACKEND_ROOT / "keygermany.db"
     SQLALCHEMY_DATABASE_URL = f"sqlite:///{abs_path}"
     DB_FILE_PATH = abs_path
 else:
